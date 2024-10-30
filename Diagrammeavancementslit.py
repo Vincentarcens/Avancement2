@@ -71,11 +71,12 @@ fig, ax = plt.subplots()
 ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quantite_D], 
        color=['blue', 'orange', 'green', 'red'])
 ax.set_ylim(0, y_max)
-ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}")
+ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}", pad=20)
 
-# Afficher les quantités en haut du graphique
+# Afficher les quantités juste au-dessus des barres, sans chevauchement avec le titre
 for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
-    ax.text(i, y_max * 1.05, f'{height:.4f}', ha='center', va='bottom', fontsize=10)  # Position fixe au-dessus du graphique
+    position = y_max * 0.95  # Position des annotations légèrement en dessous de l'équation de réaction
+    ax.text(i, position, f'{height:.4f}', ha='center', va='bottom', fontsize=10)
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

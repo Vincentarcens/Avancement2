@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 st.set_page_config(page_title="Simulation d'une réaction chimique", page_icon="⚗️")
+st.title("Simulation d'une réaction chimique")
 
 # Initialisation des valeurs de session
 if "avancement" not in st.session_state:

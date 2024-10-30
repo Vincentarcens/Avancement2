@@ -9,7 +9,7 @@ if "avancement" not in st.session_state:
     st.session_state.avancement = 0.0
 
 # Demande des noms des réactifs et des produits
-st.title("Simulation de réaction chimique")
+st.title("Simulation d'une réaction chimique")
 nom_A = st.text_input("Nom du réactif A", "A")
 nom_B = st.text_input("Nom du réactif B", "B")
 nom_C = st.text_input("Nom du produit C", "C")

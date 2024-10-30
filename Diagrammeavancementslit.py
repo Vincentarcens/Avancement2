@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 
+# Configurer le titre et l'icône de la page
 st.set_page_config(page_title="Simulation d'une réaction chimique", page_icon="⚗️")
 st.markdown("<h1 style='font-size: 36px;'>Simulation d'une réaction chimique</h1>", unsafe_allow_html=True)
 
@@ -72,9 +73,11 @@ ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quanti
 ax.set_ylim(0, y_max)
 ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}")
 
-# Afficher les quantités au-dessus des barres
+# Afficher les quantités au-dessus des barres avec position dynamique
 for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
-    ax.text(i, height + 0.1, f'{height:.2f}', ha='center')
+    # Ajuster la position de l'annotation pour les valeurs faibles
+    position = height + (y_max * 0.05 if height < y_max * 0.1 else 0.1)
+    ax.text(i, position, f'{height:.4f}', ha='center')
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

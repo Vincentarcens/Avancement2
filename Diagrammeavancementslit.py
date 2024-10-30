@@ -1,4 +1,3 @@
-# Sauvegarde ce script sous le nom app.py pour le déployer sur Streamlit
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
@@ -27,9 +26,17 @@ avancement_B_epuise = quantite_initiale_B / coeff_B
 # L'avancement maximal de la réaction est déterminé par le réactif limitant
 avancement_max = min(avancement_A_epuise, avancement_B_epuise)
 
-# Définir le pas d'avancement pour obtenir une bonne résolution
-n_points = 100  # Par exemple, 100 points de données
-avancement = np.linspace(0, avancement_max, n_points)
+# Slider pour contrôler l'avancement manuel
+avancement = st.slider("Avancement de la réaction", 0.0, avancement_max, step=avancement_max / 100)
+
+# Bouton pour augmenter l'avancement
+if st.button("Avancer"):
+    avancement += avancement_max / 25  # Incrémente de 4% à chaque clic (environ)
+    avancement = min(avancement, avancement_max)  # Limite à l'avancement max
+
+# Bouton pour remettre à zéro
+if st.button("Remise à zéro"):
+    avancement = 0.0
 
 # Quantités en fonction de l'avancement
 quantite_A = quantite_initiale_A - coeff_A * avancement  # réactif A
@@ -38,23 +45,17 @@ quantite_C = coeff_C * avancement                       # produit C
 quantite_D = coeff_D * avancement                       # produit D
 
 # Calcul du maximum pour l'axe des ordonnées
-y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C[-1], quantite_D[-1]) * 1.1  # un peu d'espace au-dessus
-
-# Slider pour contrôler l'avancement
-avancement_val = st.slider("Avancement de la réaction", 0.0, avancement_max, step=avancement_max / (n_points - 1))
-
-# Trouver l'indice correspondant à l'avancement actuel
-frame = int((avancement_val / avancement_max) * (n_points - 1))
+y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 1.1  # un peu d'espace au-dessus
 
 # Préparation du graphique
 fig, ax = plt.subplots()
-ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A[frame], quantite_B[frame], quantite_C[frame], quantite_D[frame]],
+ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quantite_D], 
        color=['blue', 'orange', 'green', 'red'])
 ax.set_ylim(0, y_max)
 ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}")
 
 # Afficher les quantités au-dessus des barres
-for i, (height, label) in enumerate(zip([quantite_A[frame], quantite_B[frame], quantite_C[frame], quantite_D[frame]], [nom_A, nom_B, nom_C, nom_D])):
+for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
     ax.text(i, height + 0.1, f'{height:.2f}', ha='center')
 
 # Afficher le graphique dans Streamlit

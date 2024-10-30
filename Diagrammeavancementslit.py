@@ -64,7 +64,7 @@ quantite_C = coeff_C * avancement                       # produit C
 quantite_D = coeff_D * avancement                       # produit D
 
 # Calcul du maximum pour l'axe des ordonnées
-y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 1.2  # un peu d'espace au-dessus
+y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 1.4  # un peu d'espace au-dessus
 
 # Préparation du graphique
 fig, ax = plt.subplots()
@@ -93,6 +93,14 @@ for i, label in enumerate(bar_labels):
 for i, height in enumerate(bar_heights):
     position = y_max * 0.95  # Position des annotations légèrement en dessous de l'équation de réaction
     ax.text(i, position, f'{height:.4f}', ha='center', va='bottom', fontsize=10)
+
+# Ajouter des flèches pour indiquer l'évolution des quantités
+evolution_signs = ["↓", "↓", "↑", "↑"]  # Flèches vers le bas pour les réactifs et vers le haut pour les produits
+evolution_colors = ["black", "black", "black", "black"]  # Couleur des flèches
+
+for i, sign in enumerate(evolution_signs):
+    arrow_position = bar_heights[i] + 0.02 * y_max if sign == "↑" else bar_heights[i] - 0.02 * y_max
+    ax.text(i, arrow_position, sign, ha='center', va='center', color=evolution_colors[i], fontsize=14, fontweight="bold")
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

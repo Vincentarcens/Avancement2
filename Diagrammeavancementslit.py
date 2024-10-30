@@ -94,13 +94,14 @@ for i, height in enumerate(bar_heights):
     position = y_max * 0.95  # Position des annotations légèrement en dessous de l'équation de réaction
     ax.text(i, position, f'{height:.4f}', ha='center', va='bottom', fontsize=10)
 
-# Ajouter des flèches pour indiquer l'évolution des quantités
+# Ajouter des flèches pour indiquer l'évolution des quantités, proportionnelles aux coefficients
 evolution_signs = ["↓", "↓", "↑", "↑"]  # Flèches vers le bas pour les réactifs et vers le haut pour les produits
-evolution_colors = ["black", "black", "black", "black"]  # Couleur des flèches
+coefficients = [coeff_A, coeff_B, coeff_C, coeff_D]  # Liste des coefficients pour redimensionner les flèches
 
-for i, sign in enumerate(evolution_signs):
+for i, (sign, coeff) in enumerate(zip(evolution_signs, coefficients)):
+    arrow_size = 12 + 5 * coeff  # Ajuster la taille en fonction du coefficient
     arrow_position = bar_heights[i] + 0.02 * y_max if sign == "↑" else bar_heights[i] - 0.02 * y_max
-    ax.text(i, arrow_position, sign, ha='center', va='center', color=evolution_colors[i], fontsize=14, fontweight="bold")
+    ax.text(i, arrow_position, sign, ha='center', va='center', color="black", fontsize=arrow_size, fontweight="bold")
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

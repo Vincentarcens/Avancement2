@@ -68,16 +68,29 @@ y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 
 
 # Préparation du graphique
 fig, ax = plt.subplots()
-ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quantite_D], 
-       color=['blue', 'orange', 'green', 'red'])
-ax.set_ylim(0, y_max)
+bar_positions = [0, 1, 2, 3]
+bar_heights = [quantite_A, quantite_B, quantite_C, quantite_D]
+bar_labels = [nom_A, nom_B, nom_C, nom_D]
 
-# Utilisation de LaTeX pour formater l'équation de réaction
-equation_text = rf"${int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} \rightarrow {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}$"
+ax.bar(bar_positions, bar_heights, color=['blue', 'orange', 'green', 'red'])
+ax.set_ylim(0, y_max)
+ax.set_xticks([])  # Masquer les étiquettes x
+
+# Génération de l'équation de réaction avec suppression des coefficients de 1
+equation_text = (
+    rf"${'' if coeff_A == 1 else int(coeff_A)}{nom_A} + "
+    rf"{'' if coeff_B == 1 else int(coeff_B)}{nom_B} \rightarrow "
+    rf"{'' if coeff_C == 1 else int(coeff_C)}{nom_C} + "
+    rf"{'' if coeff_D == 1 else int(coeff_D)}{nom_D}$"
+)
 ax.set_title(equation_text, pad=20)
 
+# Ajouter les noms des réactifs et produits sous les barres en utilisant LaTeX
+for i, label in enumerate(bar_labels):
+    ax.text(i, -y_max * 0.05, f"${label}$", ha='center', va='top', fontsize=12)  # Position sous les barres
+
 # Afficher les quantités juste au-dessus des barres, sans chevauchement avec le titre
-for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
+for i, height in enumerate(bar_heights):
     position = y_max * 0.95  # Position des annotations légèrement en dessous de l'équation de réaction
     ax.text(i, position, f'{height:.4f}', ha='center', va='bottom', fontsize=10)
 

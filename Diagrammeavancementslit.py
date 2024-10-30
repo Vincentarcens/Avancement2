@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 st.set_page_config(page_title="Simulation d'une réaction chimique", page_icon="⚗️")
-st.markdown("<h1 style='font-size: 36px; color: #333333;'>Simulation de réaction chimique</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='font-size: 32px; color: #333333;'>Simulation d'une réaction chimique</h1>", unsafe_allow_html=True)
 
 # Initialisation des valeurs de session
 if "avancement" not in st.session_state:

@@ -10,11 +10,11 @@ st.markdown("<h1 style='font-size: 36px;'>Simulation d'une réaction chimique</h
 if "avancement" not in st.session_state:
     st.session_state.avancement = 0.0
 
-# Demande des noms des réactifs et des produits
-nom_A = st.text_input("Nom du réactif A", "A")
-nom_B = st.text_input("Nom du réactif B", "B")
-nom_C = st.text_input("Nom du produit C", "C")
-nom_D = st.text_input("Nom du produit D", "D")
+# Demande des noms des réactifs et des produits avec syntaxe LaTeX
+nom_A = st.text_input("Nom du réactif A (utilisez ^ pour les exposants et _ pour les indices)", "H^+")
+nom_B = st.text_input("Nom du réactif B (utilisez ^ pour les exposants et _ pour les indices)", "Mg")
+nom_C = st.text_input("Nom du produit C (utilisez ^ pour les exposants et _ pour les indices)", "H_2")
+nom_D = st.text_input("Nom du produit D (utilisez ^ pour les exposants et _ pour les indices)", "Mg^{2+}")
 
 # Demande des coefficients stoechiométriques des réactifs et des produits
 coeff_A = st.number_input(f"Coefficient stœchiométrique de {nom_A}", value=1.0)
@@ -71,7 +71,10 @@ fig, ax = plt.subplots()
 ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quantite_D], 
        color=['blue', 'orange', 'green', 'red'])
 ax.set_ylim(0, y_max)
-ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}", pad=20)
+
+# Utilisation de LaTeX pour formater l'équation de réaction
+equation_text = rf"${int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} \rightarrow {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}$"
+ax.set_title(equation_text, pad=20)
 
 # Afficher les quantités juste au-dessus des barres, sans chevauchement avec le titre
 for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):

@@ -30,6 +30,18 @@ avancement_B_epuise = quantite_initiale_B / coeff_B
 # L'avancement maximal de la réaction est déterminé par le réactif limitant
 avancement_max = min(avancement_A_epuise, avancement_B_epuise)
 
+# Slider pour contrôler l'avancement manuel
+avancement_slider = st.slider(
+    "Avancement de la réaction", 
+    0.0, 
+    avancement_max, 
+    value=st.session_state.avancement, 
+    step=avancement_max / 100
+)
+
+# Synchroniser le slider avec la session state
+st.session_state.avancement = avancement_slider
+
 # Bouton pour augmenter l'avancement
 if st.button("Avancer"):
     st.session_state.avancement += avancement_max / 25  # Incrémente de 4% à chaque clic

@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 st.set_page_config(page_title="Simulation d'une réaction chimique", page_icon="⚗️")
+st.markdown("<h1 style='font-size: 36px; color: #333333;'>Simulation de réaction chimique</h1>", unsafe_allow_html=True)
 
 # Initialisation des valeurs de session
 if "avancement" not in st.session_state:
     st.session_state.avancement = 0.0
 
 # Demande des noms des réactifs et des produits
-st.title("Simulation d'une réaction chimique")
 nom_A = st.text_input("Nom du réactif A", "A")
 nom_B = st.text_input("Nom du réactif B", "B")
 nom_C = st.text_input("Nom du produit C", "C")

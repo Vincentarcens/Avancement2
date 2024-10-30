@@ -75,9 +75,9 @@ ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{
 
 # Afficher les quantités au-dessus des barres avec position dynamique
 for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
-    # Ajuster la position de l'annotation pour les valeurs faibles
-    position = height + (y_max * 0.05 if height < y_max * 0.1 else 0.1)
-    ax.text(i, position, f'{height:.4f}', ha='center')
+    # Si la hauteur est très petite, place l'annotation légèrement au-dessus pour qu'elle soit visible
+    position = height + (y_max * 0.02 if height < y_max * 0.1 else 0.1)
+    ax.text(i, position, f'{height:.4f}', ha='center', va='bottom')
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

@@ -64,7 +64,7 @@ quantite_C = coeff_C * avancement                       # produit C
 quantite_D = coeff_D * avancement                       # produit D
 
 # Calcul du maximum pour l'axe des ordonnées
-y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 1.1  # un peu d'espace au-dessus
+y_max = max(quantite_initiale_A, quantite_initiale_B, quantite_C, quantite_D) * 1.2  # un peu d'espace au-dessus
 
 # Préparation du graphique
 fig, ax = plt.subplots()
@@ -73,11 +73,9 @@ ax.bar([nom_A, nom_B, nom_C, nom_D], [quantite_A, quantite_B, quantite_C, quanti
 ax.set_ylim(0, y_max)
 ax.set_title(f"{int(coeff_A)}{nom_A} + {int(coeff_B)}{nom_B} → {int(coeff_C)}{nom_C} + {int(coeff_D)}{nom_D}")
 
-# Afficher les quantités au-dessus des barres avec position dynamique
+# Afficher les quantités en haut du graphique
 for i, (height, label) in enumerate(zip([quantite_A, quantite_B, quantite_C, quantite_D], [nom_A, nom_B, nom_C, nom_D])):
-    # Si la hauteur est très petite, place l'annotation légèrement au-dessus pour qu'elle soit visible
-    position = height + (y_max * 0.02 if height < y_max * 0.1 else 0.1)
-    ax.text(i, position, f'{height:.4f}', ha='center', va='bottom')
+    ax.text(i, y_max * 1.05, f'{height:.4f}', ha='center', va='bottom', fontsize=10)  # Position fixe au-dessus du graphique
 
 # Afficher le graphique dans Streamlit
 st.pyplot(fig)

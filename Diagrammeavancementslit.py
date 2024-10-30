@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 
+# Initialisation des valeurs de session
+if "avancement" not in st.session_state:
+    st.session_state.avancement = 0.0
+
 # Demande des noms des réactifs et des produits
 st.title("Simulation de réaction chimique")
 nom_A = st.text_input("Nom du réactif A", "A")
@@ -26,17 +30,17 @@ avancement_B_epuise = quantite_initiale_B / coeff_B
 # L'avancement maximal de la réaction est déterminé par le réactif limitant
 avancement_max = min(avancement_A_epuise, avancement_B_epuise)
 
-# Slider pour contrôler l'avancement manuel
-avancement = st.slider("Avancement de la réaction", 0.0, avancement_max, step=avancement_max / 100)
-
 # Bouton pour augmenter l'avancement
 if st.button("Avancer"):
-    avancement += avancement_max / 25  # Incrémente de 4% à chaque clic (environ)
-    avancement = min(avancement, avancement_max)  # Limite à l'avancement max
+    st.session_state.avancement += avancement_max / 25  # Incrémente de 4% à chaque clic
+    st.session_state.avancement = min(st.session_state.avancement, avancement_max)  # Limite à l'avancement max
 
 # Bouton pour remettre à zéro
 if st.button("Remise à zéro"):
-    avancement = 0.0
+    st.session_state.avancement = 0.0
+
+# Utiliser la valeur de session pour l'avancement
+avancement = st.session_state.avancement
 
 # Quantités en fonction de l'avancement
 quantite_A = quantite_initiale_A - coeff_A * avancement  # réactif A
